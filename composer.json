@@ -37,6 +37,7 @@
     "infinum/eightshift-coding-standards": "^1.1",
     "pestphp/pest": "^1.0.2",
     "phpunit/phpunit": "^9.5.2",
+    "rector/rector": "^0.9.31",
     "roave/security-advisories": "dev-master",
     "szepeviktor/phpstan-wordpress": "^0.7",
     "wp-cli/wp-cli": "^2.4"
@@ -67,6 +68,8 @@
     "analyze": "@php ./vendor/bin/phpstan analyze",
     "standards:check": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs",
     "standards:fix": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf",
+    "rector:dryrun": "@php ./vendor/bin/rector process --dry-run",
+    "rector:run": "@php ./vendor/bin/rector process",
     "test:unit": "@php ./vendor/bin/pest",
     "test:coverage": "@php ./vendor/bin/pest --coverage"
   }
