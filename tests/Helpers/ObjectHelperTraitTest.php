@@ -3,11 +3,7 @@
 namespace Tests\Helpers;
 
 use Brain\Monkey\Functions;
-use EightshiftLibs\Helpers\ObjectHelperTrait;
-
-class MockObjectHelper {
-    use ObjectHelperTrait;
-}
+use Tests\Datasets\MockObjectHelper;
 
 beforeEach(function () {
 	$this->mockHelper = new MockObjectHelper();

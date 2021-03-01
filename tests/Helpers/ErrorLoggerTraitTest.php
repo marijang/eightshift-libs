@@ -2,13 +2,8 @@
 
 namespace Tests\Helpers;
 
-use EightshiftLibs\Helpers\ErrorLoggerTrait;
-
+use Tests\Datasets\MockErrorLogger;
 use function Tests\setupMocks;
-
-class MockErrorLogger {
-    use ErrorLoggerTrait;
-}
 
 beforeEach(function () {
     setupMocks();
