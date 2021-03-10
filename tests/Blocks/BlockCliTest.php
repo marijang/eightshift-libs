@@ -65,15 +65,15 @@ afterEach(function () {
 // 	$this->assertStringContainsString('namespace CoolTheme\Block;', $generatedBlock);
 // });
 
-test('Block CLI documentation is correct', function () {
-	$block = $this->block;
+// test('Block CLI documentation is correct', function () {
+// 	$block = $this->block;
 
-	$documentation = $block->getDoc();
+// 	$documentation = $block->getDoc();
 
-	$key = 'shortdesc';
+// 	$key = 'shortdesc';
 
-	$this->assertIsArray($documentation);
-	$this->assertArrayHasKey($key, $documentation);
-	$this->assertArrayHasKey('synopsis', $documentation);
-	$this->assertEquals('Copy Block from library to your project.', $documentation[$key]);
-});
+// 	$this->assertIsArray($documentation);
+// 	$this->assertArrayHasKey($key, $documentation);
+// 	$this->assertArrayHasKey('synopsis', $documentation);
+// 	$this->assertEquals('Copy Block from library to your project.', $documentation[$key]);
+// });
