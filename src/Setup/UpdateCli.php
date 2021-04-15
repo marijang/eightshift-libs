@@ -42,32 +42,8 @@ class UpdateCli extends AbstractCli
 			'synopsis' => [
 				[
 					'type' => 'assoc',
-					'name' => 'skip_core',
-					'description' => 'If you want to skip core update/installation, provide bool on this attr.',
-					'optional' => true,
-				],
-				[
-					'type' => 'assoc',
-					'name' => 'skip_plugins',
-					'description' => 'If you want to skip all plugins update/installation, provide bool on this attr.',
-					'optional' => true,
-				],
-				[
-					'type' => 'assoc',
-					'name' => 'skip_plugins_core',
-					'description' => 'If you want to skip plugins only from core update/installation, provide bool on this attr.',
-					'optional' => true,
-				],
-				[
-					'type' => 'assoc',
-					'name' => 'skip_plugins_github',
-					'description' => 'If you want to skip plugins only from github update/installation, provide bool on this attr.',
-					'optional' => true,
-				],
-				[
-					'type' => 'assoc',
-					'name' => 'skip_themes',
-					'description' => 'If you want to skip themes update/installation, provide bool on this attr.',
+					'name' => 'setup_file_path',
+					'description' => 'Specify the path of the setup.json file (optional)',
 					'optional' => true,
 				],
 			],

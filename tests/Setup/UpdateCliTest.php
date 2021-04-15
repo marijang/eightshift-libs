@@ -3,8 +3,6 @@
 namespace Tests\Unit\Setup;
 
 use EightshiftLibs\Setup\UpdateCli;
-use Throwable;
-use WP_CLI\ExitException;
 
 use function Tests\deleteCliOutput;
 
@@ -16,11 +14,15 @@ beforeEach(function () {
 
 	$wpCliMock
 		->shouldReceive('success')
-		->andReturnArg(0);
+		->andReturnUsing(function ($message) {
+			putenv("SUCCESS_MESSAGE={$message}");
+		});
 
 	$wpCliMock
 		->shouldReceive('error')
-		->andReturnArg(0);
+		->andReturnUsing(function ($message) {
+			putenv("ERROR_MESSAGE={$message}");
+		});
 
 	$wpCliMock
 		->shouldReceive('runcommand')
@@ -28,7 +30,9 @@ beforeEach(function () {
 
 	$wpCliMock
 		->shouldReceive('log')
-		->andReturnArg(0);
+		->andReturnUsing(function ($message) {
+			putenv("LOG_MESSAGE={$message}");
+		});
 
 	$this->update = new UpdateCli('boilerplate');
 });
@@ -40,6 +44,10 @@ afterEach(function () {
 	$output = dirname(__FILE__, 3) . '/cliOutput';
 
 	deleteCliOutput($output);
+
+	putenv("SUCCESS_MESSAGE");
+	putenv("ERROR_MESSAGE");
+	putenv("LOG_MESSAGE");
 });
 
 test('Update CLI command will correctly run the update with defaults', function () {
@@ -81,5 +89,6 @@ test('Update CLI documentation is correct', function () {
 	$this->assertIsArray($documentation);
 	$this->assertArrayHasKey($key, $documentation);
 	$this->assertArrayHasKey('synopsis', $documentation);
-	$this->assertEquals('Run project update with details stored in setup.json file.', $documentation[$key]);
+	$this->assertSame('Run project update with details stored in setup.json file.', $documentation[$key]);
+	$this->assertSame('Specify the path of the setup.json file (optional)', $documentation['synopsis'][0]['description']);
 });
