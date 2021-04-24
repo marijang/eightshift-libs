@@ -45,7 +45,7 @@ class Components
 		} elseif (is_string($variable)) {
 			$output = $variable;
 		} else {
-			ComponentException::throwNotStringOrVariable($variable);
+			throw ComponentException::throwNotStringOrVariable($variable);
 		}
 
 		return $output;
@@ -76,7 +76,7 @@ class Components
 	 *                            If not get_template_directory_uri() will be used as a default parent path.
 	 * @param bool   $useComponentDefaults If true the helper will fetch component manifest and merge default attributes in the original attributes list.
 	 *
-	 * @throws \Exception When we're unable to find the component by $component.
+	 * @throws ComponentException When we're unable to find the component by $component.
 	 *
 	 * @return string
 	 */
@@ -86,9 +86,21 @@ class Components
 			$parentPath = \get_template_directory();
 		}
 
-		// Detect if user passed component name or path.
+		/**
+		 * Detect if user passed component name or path.
+		 *
+		 * If the path was passed, we need to get the component name, in case the
+		 * parentClass attribute was added, because the class of the wrapper need to look like
+		 *
+		 * parentClass__componentName
+		 *
+		 * not
+		 *
+		 * parentClass__componentName.php
+		 */
 		if (strpos($component, '.php') !== false) {
 			$componentPath = "{$parentPath}/$component";
+			$component = pathinfo($component, PATHINFO_FILENAME);
 
 			if ($useComponentDefaults) {
 				$manifest = self::getManifest($parentPath);
@@ -102,11 +114,12 @@ class Components
 		}
 
 		if (!file_exists($componentPath)) {
-			ComponentException::throwUnableToLocateComponent($componentPath);
+			throw ComponentException::throwUnableToLocateComponent($componentPath);
 		}
 
 		if ($useComponentDefaults && isset($manifest['attributes'])) {
 			$defaultAttributes = [];
+
 			foreach ($manifest['attributes'] as $itemKey => $itemValue) {
 				if (isset($itemValue['default'])) {
 					$defaultAttributes[$itemKey] = $itemValue['default'];
@@ -233,7 +246,7 @@ class Components
 	}
 
 	/**
-	 * Retun BEM selector for html class and check if Condition part is set.
+	 * Return BEM selector for html class and check if Condition part is set.
 	 *
 	 * @param mixed  $condition Check condition.
 	 * @param string $block BEM Block selector.
@@ -247,11 +260,15 @@ class Components
 		$fullModifier = '';
 		$fullElement = '';
 
-		if ($element) {
+		$element = trim($element);
+		$modifier = trim($modifier);
+		$block = trim($block);
+
+		if (!empty($element)) {
 			$fullElement = "__{$element}";
 		}
 
-		if ($modifier) {
+		if (!empty($modifier)) {
 			$fullModifier = "--{$modifier}";
 		}
 
